@@ -1,4 +1,7 @@
 
 ### 查询出所有广东省的市、县的思路总结
  
-> 语法<br/>
+> select sh.cityName 省,s.cityName 市,x.cityName 县,x.depth from s_provinces x <br/>
+>	inner join s_provinces s on x.parentId = s.id
+>	inner join s_provinces sh on s.parentId = sh.id
+>	where sh.cityName="广东省";
