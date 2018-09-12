@@ -5,4 +5,5 @@
 >	inner join s_provinces s on x.parentId = s.id <br/>
 >	inner join s_provinces sh on s.parentId = sh.id <br/>
 >	where sh.cityName="广东省"; <br/><br/>
-> 当一个表存在递归关系时，我们首先从最基层开始进行查询，
+> 当一个表存在递归关系时，我们首先从最基层开始进行查询 <br/>
+>*啦啦
