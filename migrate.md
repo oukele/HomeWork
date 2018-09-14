@@ -1,6 +1,6 @@
 ## 总结分割方法
 ###
-###城市表分割
+### 城市表分割
 >首先在表s_provinces中,查询所有的市，和县(区)<br/>
 >select count(*) from s_provinces where depth=2; # 市 ( 373 )<br/>
 >select count(*) from  s_provinces where depth=3;# 县 ( 3341 )<br/>
@@ -39,7 +39,7 @@
 >inner join city c on c.city like concat(la.city,"%") abd c.district like concat(la.district,"%");<br/>
 >这样我们就能用cid和city连接，找到相对应的地区数据。<br/>
 
->####总结：
+>#### 总结：
 >先从基层开始做起，根据需要把大概思路构建出来，不着急，冷静的做。（子查询效率比较高。。）
 
 
