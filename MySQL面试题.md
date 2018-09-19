@@ -79,7 +79,23 @@
 > · 插入删除 修改 维护速度下降<br/>
 > · 占用物理和数据空间<br/>
 > #### 韦邦杠
-> ......
+> 11、现在因为投票人数太多，网站时常出现too many connection的错误，请提供解决方案<br/>
+> 答：mysql的最大连接数默认是100, 这个数值对于并发连接很多的数据库应用是远远不够的，当连接请求大于默认连接数后，就会出现无法连接数据库的错误，<br/>
+> 因此我们需要把它适当调大一些，编辑my.ini<br/>
+> 修改 max_connections=1000<br/><br/>
+> 12、如何提高insert的性能？
+> 答:(a)合并多条 insert 为一条，即： insert into t values(a,b,c),  (d,e,f)<br/>
+> 原因分析：主要原因是多条insert合并后日志量（MySQL的binlog和innodb的事务让日志） 减少了，降低日志刷盘的数据量和频率，从而提高效率。通过合并SQL语> > 句，同时也能减少SQL语句解析的次数，减少网络传输的IO。<br/>
+>     b)修改参数 bulk_insert_buffer_size， 调大批量插入的缓存；<br/>
+>     c)设置 innodb_flush_log_at_trx_commit = 0 ，相对于 innodb_flush_log_at_trx_commit = 1 可以十分明显的提升导入速度；<br/>
+>      （备注：innodb_flush_log_at_trx_commit 参数对 InnoDB Log 的写入性能有非常关键的影响。该参数可以设置为0，1，2，解释如下：<br/>
+>　　  0：log buffer中的数据将以每秒一次的频率写入到log file中，且同时会进行文件系统到磁盘的同步操作，但是每个事务的commit并不会触发任何log buffer  > 到log file  的刷新或者文件系统到磁盘的刷新操作;<br/>
+>　　  1：在每次事务提交的时候将log buffer 中的数据都会写入到log file，同时也会触发文件系统到磁盘的同步;<br/>
+>　　  2：事务提交会触发log buffer 到log file的刷新，但并不会触发磁盘文件系统到磁盘的同步。此外，每秒会有一次文件系统到磁盘同步操作。
+>        ）<br/>
+>      d）手动使用事务<br/>
+>           因为mysql默认是autocommit的，这样每插入一条数据，都会进行一次commit；所以，为了减少创建事务的消耗，我们可用手工使用事务，即START   
+> TRANSACTION;insert 。。,insert。。 commit；即执行多个insert后再一起提交；一般1000条insert 提交一次。<br/>
 
 
   
